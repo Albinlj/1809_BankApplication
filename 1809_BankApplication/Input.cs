@@ -7,18 +7,21 @@ using System.Threading.Tasks;
 
 namespace _1809_BankApplication {
     static class Input {
+        public static void PrintMenu() {
+            for (int i = 0; i < Enum.GetNames(typeof(Actions)).Length; i++) {
+                Console.WriteLine($"{i}) {Utility.PascalToSentence(Enum.GetName(typeof(Actions), i))}");
+            }
+        }
+
         internal static Actions Query() {
-            Output.PrintOptions();
-            Console.ReadLine();
-            return Actions.SearchCustomer;
-
-
+            string input = Console.ReadLine();
+            Console.WriteLine();
+            return (Actions)int.Parse(input);
         }
 
         public static int? QueryInt() {
-            int output = 0;
             while (true) {
-                if (int.TryParse(Console.ReadLine(), out output)) {
+                if (int.TryParse(Console.ReadLine(), out int output)) {
                     return output;
                 }
                 else {
@@ -26,6 +29,8 @@ namespace _1809_BankApplication {
                 };
             }
         }
+
+        
 
     }
 }
