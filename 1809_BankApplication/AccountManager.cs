@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 
 namespace _1809_BankApplication {
     class AccountManager {
+        public Bank MyBank { get; }
         public static AccountManager instance;
-        List<Account> accounts = new List<Account>();
+        public List<Account> Accounts { get; } = new List<Account>();
 
-        public AccountManager() {
-            instance = this;
+        public AccountManager(Bank bank) {
+            MyBank = bank;
         }
 
         public void LoadAccounts() {
-            List<string[]> accountInfos = Database.LoadAccounts();
+            List<string[]> accountInfos = DatabaseManager.LoadAccounts();
             foreach (string[] info in accountInfos) {
-                accounts.Add(new Account() {
+                Accounts.Add(new Account() {
                     Id = int.Parse(info[0]),
                     OwnerId = int.Parse(info[1]),
                     Balance = decimal.Parse(info[2])
@@ -26,7 +27,7 @@ namespace _1809_BankApplication {
 
         public List<Account> GetAccountsByCustomerId(int customerId) {
             List<Account> returnList = new List<Account>();
-            foreach (Account account in accounts) {
+            foreach (Account account in Accounts) {
                 if (account.OwnerId == customerId) {
                     returnList.Add(account);
                 }
@@ -35,7 +36,7 @@ namespace _1809_BankApplication {
         }
 
         public Account GetAccountByAccountId(int accountToGetId) {
-            foreach (Account currentAccount in accounts) {
+            foreach (Account currentAccount in Accounts) {
                 if (currentAccount.Id == accountToGetId) {
                     return currentAccount;
                 }
@@ -46,8 +47,8 @@ namespace _1809_BankApplication {
         public bool DeleteAccount(int accountToDeleteId) {
             Account accountToDelete = GetAccountByAccountId(accountToDeleteId);
             if (accountToDelete != null && accountToDelete.Balance == 0) {
-                accounts.Remove(accountToDelete);
-                Program.CustomerManager.GetCustomerById(accountToDelete.OwnerId).Accounts.Remove(accountToDelete);
+                Accounts.Remove(accountToDelete);
+                MyBank.CustomerManager.GetCustomerById(accountToDelete.OwnerId).Accounts.Remove(accountToDelete);
                 accountToDelete.OwnerId = 0;
                 return true;
             }
@@ -56,7 +57,7 @@ namespace _1809_BankApplication {
 
         internal void AddAccount(int ownerId) {
             int currentMaxId = 00000;
-            foreach (Account account in accounts) {
+            foreach (Account account in Accounts) {
                 if (account.Id > currentMaxId) {
                     currentMaxId = account.Id;
                 }
@@ -68,8 +69,8 @@ namespace _1809_BankApplication {
                 Balance = 0
             };
 
-            accounts.Add(newAccount);
-            Program.CustomerManager.GetCustomerById(ownerId).Accounts.Add(newAccount);
+            Accounts.Add(newAccount);
+            MyBank.CustomerManager.GetCustomerById(ownerId).Accounts.Add(newAccount);
         }
     }
 }

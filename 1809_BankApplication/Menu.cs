@@ -6,13 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace _1809_BankApplication {
-    static class Input {
-        public static void PrintMenu() {
-            for (int i = 0; i < Enum.GetNames(typeof(Actions)).Length; i++) {
-                Console.WriteLine($"{i}) {Utility.PascalToSentence(Enum.GetName(typeof(Actions), i))}");
-            }
-        }
-
+    static class Menu {
         internal static Actions QueryAction() {
             string input = Console.ReadLine();
             Console.WriteLine();

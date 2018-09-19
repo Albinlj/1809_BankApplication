@@ -7,19 +7,13 @@ using static System.Console;
 
 namespace _1809_BankApplication {
     class Program {
-        public static Database DatabaseManager { get; } = new Database();
-        public static CustomerManager CustomerManager { get; } = new CustomerManager();
-        public static TransactionManager TransactionManager { get; } = new TransactionManager();
-        public static AccountManager AccountManager { get; } = new AccountManager();
-
+        public static Bank MyBank { get; } = new Bank();
 
         private static void Main(string[] args) {
             //Load Files
-            CustomerManager.LoadCustomers();
-            AccountManager.LoadAccounts();
-            Input.PrintMenu();
+            PrintMenu();
             do {
-                switch (Input.QueryAction()) {
+                switch (Menu.QueryAction()) {
 
                     case Actions.SaveAndExit:
                         break;
@@ -90,12 +84,12 @@ namespace _1809_BankApplication {
         private static void CreateCustomer() {
             Write("* Create Customer *\n");
 
-            Customer newCustomer = CustomerManager.CreateCustomer();
+            Customer newCustomer = MyBank.CustomerManager.CreateCustomer();
 
             Write("Input name: ");
             newCustomer.Name = ReadLine();
             Write("Input organization number: ");
-            newCustomer.OrgNumber = long.Parse(ReadLine());
+            newCustomer.OrgNumber = Int64.Parse(ReadLine());
             Write("Input street and number: ");
             newCustomer.Adress = ReadLine();
             Write("Input city: ");
@@ -109,28 +103,28 @@ namespace _1809_BankApplication {
             Write("Input phone number: ");
             newCustomer.PhoneNumber = ReadLine();
 
-            AccountManager.AddAccount(newCustomer.ID);
+            MyBank.AccountManager.AddAccount(newCustomer.ID);
         }
 
         private static void DeleteAccount() {
             Write("* Delete Account *\n" +
                 "Input Account ID: ");
             string input = ReadLine();
-            AccountManager.DeleteAccount(int.Parse(input));
+            MyBank.AccountManager.DeleteAccount(Int32.Parse(input));
         }
 
         private static void CreateAccount() {
             Write("* Create Account *\n" +
                 "Input Customer ID of Owner: ");
             string input = ReadLine();
-            AccountManager.AddAccount(int.Parse(input));
+            MyBank.AccountManager.AddAccount(Int32.Parse(input));
         }
 
         private static void DeleteCustomer() {
             Write("* Delete Customer *\n" +
                 " Input Customer ID: ");
             string input = ReadLine();
-            CustomerManager.DeleteCustomer(int.Parse(input));
+            MyBank.CustomerManager.DeleteCustomer(Int32.Parse(input));
         }
 
         private static void ShowCustomerView() {
@@ -138,10 +132,10 @@ namespace _1809_BankApplication {
                 "Input customer ID: ");
             string input = ReadLine();
             WriteLine();
-            Customer foundCustomer = CustomerManager.GetCustomerById(int.Parse(input));
+            Customer foundCustomer = MyBank.CustomerManager.GetCustomerById(Int32.Parse(input));
             if (foundCustomer != null) {
                 WriteLine(foundCustomer.FullInfoAsString);
-                foreach (Account account in AccountManager.GetAccountsByCustomerId(int.Parse(input))) {
+                foreach (Account account in MyBank.AccountManager.GetAccountsByCustomerId(Int32.Parse(input))) {
                     WriteLine(account.FullInfoAsString);
                 }
                 WriteLine();
@@ -156,9 +150,15 @@ namespace _1809_BankApplication {
                       "Input name or city: ");
             string input = ReadLine().ToUpper();
             WriteLine();
-            List<Customer> foundCustomers = CustomerManager.SearchByNameOrCity(input);
+            List<Customer> foundCustomers = MyBank.CustomerManager.SearchByNameOrCity(input);
             foreach (Customer customer in foundCustomers) {
                 WriteLine($"{customer.ID}: {customer.Name}");
+            }
+        }
+
+        public static void PrintMenu() {
+            for (int i = 0; i < Enum.GetNames(typeof(Actions)).Length; i++) {
+                Console.WriteLine($"{i}) {Utility.PascalToSentence(Enum.GetName(typeof(Actions), i))}");
             }
         }
     }

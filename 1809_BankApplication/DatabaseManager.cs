@@ -7,7 +7,13 @@ using System.IO;
 using System.Reflection;
 
 namespace _1809_BankApplication {
-    class Database {
+    class DatabaseManager {
+
+
+        public Bank MyBank { get; }
+        public DatabaseManager (Bank bank) {
+            MyBank = bank;
+        }
 
 
         public static List<string[]> LoadCustomers() {
@@ -38,6 +44,7 @@ namespace _1809_BankApplication {
             }
             return accountInfoList;
         }
+
 
         public void AddTransaction(Transaction newTransaction) {
         }

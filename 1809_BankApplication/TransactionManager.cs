@@ -6,6 +6,11 @@ namespace _1809_BankApplication {
     class TransactionManager {
         public List<Transaction> Transactions { get; set; }
 
+        public Bank MyBank { get; }
+        public TransactionManager(Bank bank) {
+            MyBank = bank;
+        }
+
         public T CreateTransaction<T>() where T : Transaction, new() {
             T newTransaction = new T();
             Transactions.Add(newTransaction);
@@ -26,8 +31,8 @@ namespace _1809_BankApplication {
             receivingAccount.Balance += amount;
             sendingAccount.Balance -= amount;
 
-            Program.DatabaseManager.AddTransaction(newTransfer);
-            Program.DatabaseManager.UpdateAccount(new List<Account>() {sendingAccount, receivingAccount});
+            MyBank.DatabaseManager.AddTransaction(newTransfer);
+            MyBank.DatabaseManager.UpdateAccount(new List<Account>() {sendingAccount, receivingAccount});
 
             return newTransfer;
         }
@@ -42,8 +47,8 @@ namespace _1809_BankApplication {
             newDeposit.Amount = amount;
             receivingAccount.Balance += amount;
 
-            Program.DatabaseManager.AddTransaction(newDeposit);
-            Program.DatabaseManager.UpdateAccount(receivingAccount);
+            MyBank.DatabaseManager.AddTransaction(newDeposit);
+            MyBank.DatabaseManager.UpdateAccount(receivingAccount);
 
             return newDeposit;
         }
@@ -59,8 +64,8 @@ namespace _1809_BankApplication {
             newTransfer.Amount = amount;
             withdrawingAccount.Balance -= amount;
 
-            Program.DatabaseManager.AddTransaction(newTransfer);
-            Program.DatabaseManager.UpdateAccount(withdrawingAccount);
+            MyBank.DatabaseManager.AddTransaction(newTransfer);
+            MyBank.DatabaseManager.UpdateAccount(withdrawingAccount);
 
             return newTransfer;
         }

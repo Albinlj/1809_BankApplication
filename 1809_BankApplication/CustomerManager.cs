@@ -9,8 +9,14 @@ namespace _1809_BankApplication {
     class CustomerManager {
         public List<Customer> Customers { get; } = new List<Customer>();
 
+
+
+        public Bank MyBank { get; }
+        public CustomerManager (Bank bank) {
+            MyBank = bank;
+        }
         internal void LoadCustomers() {
-            List<string[]> customerInfo = Database.LoadCustomers();
+            List<string[]> customerInfo = DatabaseManager.LoadCustomers();
             foreach (string[] info in customerInfo) {
                 Customers.Add(new Customer() {
                     ID = int.Parse(info[0]),

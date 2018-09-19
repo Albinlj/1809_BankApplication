@@ -45,14 +45,15 @@
   <ItemGroup>
     <Compile Include="Account.cs" />
     <Compile Include="AccountManager.cs" />
+    <Compile Include="Bank.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerManager.cs" />
-    <Compile Include="Database.cs" />
+    <Compile Include="DatabaseManager.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Transactions\Deposit.cs" />
     <Compile Include="Transactions\Interfaces\IHasReceiver.cs" />
     <Compile Include="Transactions\Interfaces\IHasSender.cs" />
-    <Compile Include="Input.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="Transactions\Transfer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
