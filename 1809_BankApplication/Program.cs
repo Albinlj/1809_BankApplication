@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _1809_BankApplication.Transactions;
 using static System.Console;
 
 namespace _1809_BankApplication {
@@ -13,8 +14,8 @@ namespace _1809_BankApplication {
             //Load Files
             PrintMenu();
             do {
+                WriteLine();
                 switch (Menu.QueryAction()) {
-
                     case Actions.SaveAndExit:
                         break;
                     case Actions.SearchCustomer:
@@ -54,11 +55,7 @@ namespace _1809_BankApplication {
                         Console.WriteLine("NEIN");
                         break;
                 }
-
             } while (true);
-
-
-
         }
 
         private static void ApplyInterest() {
@@ -66,30 +63,81 @@ namespace _1809_BankApplication {
         }
 
         private static void ShowAccountView() {
-            throw new NotImplementedException();
+            WriteLine("* Show Account View *");
+            Write("Input ID of account: ");
+            int accountId = QueryInt();
+
+            Account receivingAccount = MyBank.AccountManager.GetAccountByAccountId(accountId);
+        }
+
+        private static int QueryInt() {
+            int output;
+            bool wasSuccess;
+            do {
+                wasSuccess = int.TryParse(ReadLine(), out output);
+                if (wasSuccess == false) Console.WriteLine("Not a valid integer. Try again!");
+
+            } while (wasSuccess == false);
+            return output;
         }
 
         private static void Transaction() {
-            throw new NotImplementedException();
+            Write("* Transaction *\n" +
+                  "Input ID of sending account: ");
+            int sendingAccountId = QueryInt();
+            Write("Input ID of receiving account: ");
+            int receivingAccountId = QueryInt();
+            Write("Input amount: ");
+            int amount = QueryInt();
+
+            Account sendingAccount = MyBank.AccountManager.GetAccountByAccountId(sendingAccountId);
+            Account receivingAccount = MyBank.AccountManager.GetAccountByAccountId(receivingAccountId);
+
+            Transfer newTransfer = MyBank.TransactionManager.Transfer(sendingAccount, receivingAccount, amount);
+            Console.WriteLine(newTransfer != null
+                ? $"Successfully transferred {amount:C} from {sendingAccountId} to {receivingAccountId}"
+                : $"Failed to execute transaction");
         }
 
         private static void Withdrawal() {
-            throw new NotImplementedException();
+            Write("* Withdrawal *\n" +
+                  "Input ID of withdrawing account: ");
+            int accountId = QueryInt();
+            Write("Input amount: ");
+            int amount = QueryInt();
+
+            Account withdrawingAccount = MyBank.AccountManager.GetAccountByAccountId(accountId);
+
+            Withdrawal newWithdrawal = MyBank.TransactionManager.Withdraw(withdrawingAccount, amount);
+            Console.WriteLine(newWithdrawal != null
+                ? $"Successfully deposited {amount:C} to {accountId}"
+                : $"Failure to deposit to account {accountId}");
         }
 
         private static void Deposit() {
-            throw new NotImplementedException();
+            Write("* Deposit *\n" +
+                  "Input ID of receiving account: ");
+            int accountId = QueryInt();
+            Write("Input amount: ");
+            int amount = QueryInt();
+
+            Account receivingAccount = MyBank.AccountManager.GetAccountByAccountId(accountId);
+
+            Deposit newDeposit = MyBank.TransactionManager.Deposit(receivingAccount, amount);
+            Console.WriteLine(newDeposit != null
+                ? $"Successfully deposited {amount:C} to {accountId}"
+                : $"Failure to deposit to account {accountId}");
         }
 
         private static void CreateCustomer() {
             Write("* Create Customer *\n");
 
-            Customer newCustomer = MyBank.CustomerManager.CreateCustomer();
+            Customer newCustomer = MyBank.CustomerManager.CreateNewCustomer();
 
             Write("Input name: ");
             newCustomer.Name = ReadLine();
             Write("Input organization number: ");
-            newCustomer.OrgNumber = Int64.Parse(ReadLine());
+            newCustomer.OrgNumber = QueryInt();
             Write("Input street and number: ");
             newCustomer.Adress = ReadLine();
             Write("Input city: ");
@@ -108,37 +156,33 @@ namespace _1809_BankApplication {
 
         private static void DeleteAccount() {
             Write("* Delete Account *\n" +
-                "Input Account ID: ");
+                  "Input Account ID: ");
             string input = ReadLine();
-            MyBank.AccountManager.DeleteAccount(Int32.Parse(input));
+            MyBank.AccountManager.DeleteAccount(QueryInt());
         }
 
         private static void CreateAccount() {
             Write("* Create Account *\n" +
-                "Input Customer ID of Owner: ");
+                  "Input Customer ID of Owner: ");
             string input = ReadLine();
-            MyBank.AccountManager.AddAccount(Int32.Parse(input));
+            MyBank.AccountManager.AddAccount(QueryInt());
         }
 
         private static void DeleteCustomer() {
             Write("* Delete Customer *\n" +
-                " Input Customer ID: ");
+                  " Input Customer ID: ");
             string input = ReadLine();
-            MyBank.CustomerManager.DeleteCustomer(Int32.Parse(input));
+            MyBank.CustomerManager.DeleteCustomer(QueryInt());
         }
 
         private static void ShowCustomerView() {
             Write("* Show Customer View *\n" +
-                "Input customer ID: ");
+                  "Input customer ID: ");
             string input = ReadLine();
             WriteLine();
-            Customer foundCustomer = MyBank.CustomerManager.GetCustomerById(Int32.Parse(input));
+            Customer foundCustomer = MyBank.CustomerManager.GetCustomerById(QueryInt());
             if (foundCustomer != null) {
-                WriteLine(foundCustomer.FullInfoAsString);
-                foreach (Account account in MyBank.AccountManager.GetAccountsByCustomerId(Int32.Parse(input))) {
-                    WriteLine(account.FullInfoAsString);
-                }
-                WriteLine();
+                WriteLine(foundCustomer.FullInfoAsString + "\n");
             }
             else {
                 WriteLine("No customer with that ID found");

@@ -59,7 +59,7 @@ namespace _1809_BankApplication {
             return returnList;
         }
 
-        public Customer CreateCustomer()
+        public Customer CreateNewCustomer()
         {
             Customer newCustomer = new Customer();
 

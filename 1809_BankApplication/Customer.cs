@@ -19,7 +19,7 @@ namespace _1809_BankApplication {
 
         public string AsString => $"{ID}: {Name} - {PostalCode}";
 
-        public List<Account> Accounts { get; set; } = new List<Account>();
+        public List<Account> MyAccounts { get; set; } = new List<Account>();
 
         public string FullInfoAsString {
             get {
@@ -28,8 +28,8 @@ namespace _1809_BankApplication {
                                       $"Name:\t\t\t{Name}\n" +
                                       $"Address:\t\t{Adress}, {PostalCode} {City}\n" +
                                       $"\n" +
-                                      $"Accounts:";
-                foreach (Account currentAccount in Accounts) {
+                                      $"MyAccounts:";
+                foreach (Account currentAccount in MyAccounts) {
                     returnString += $"\n{currentAccount.FullInfoAsString}";
                 }
                 return returnString;

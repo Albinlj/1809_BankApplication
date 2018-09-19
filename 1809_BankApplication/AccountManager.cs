@@ -17,7 +17,7 @@ namespace _1809_BankApplication {
         public void LoadAccounts() {
             List<string[]> accountInfos = DatabaseManager.LoadAccounts();
             foreach (string[] info in accountInfos) {
-                Accounts.Add(new Account() {
+                Accounts.Add(new Account(this) {
                     Id = int.Parse(info[0]),
                     OwnerId = int.Parse(info[1]),
                     Balance = decimal.Parse(info[2])
@@ -48,7 +48,7 @@ namespace _1809_BankApplication {
             Account accountToDelete = GetAccountByAccountId(accountToDeleteId);
             if (accountToDelete != null && accountToDelete.Balance == 0) {
                 Accounts.Remove(accountToDelete);
-                MyBank.CustomerManager.GetCustomerById(accountToDelete.OwnerId).Accounts.Remove(accountToDelete);
+                MyBank.CustomerManager.GetCustomerById(accountToDelete.OwnerId).MyAccounts.Remove(accountToDelete);
                 accountToDelete.OwnerId = 0;
                 return true;
             }
@@ -63,14 +63,16 @@ namespace _1809_BankApplication {
                 }
             }
 
-            Account newAccount = new Account() {
+            Account newAccount = new Account(this) {
                 Id = currentMaxId + 1,
                 OwnerId = ownerId,
                 Balance = 0
             };
 
             Accounts.Add(newAccount);
-            MyBank.CustomerManager.GetCustomerById(ownerId).Accounts.Add(newAccount);
+
+            Customer ownerOfNewAccount = MyBank.CustomerManager.GetCustomerById(ownerId);
+            ownerOfNewAccount.MyAccounts.Add(newAccount);
         }
     }
 }

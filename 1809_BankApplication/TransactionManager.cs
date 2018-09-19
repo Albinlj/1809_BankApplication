@@ -9,6 +9,7 @@ namespace _1809_BankApplication {
         public Bank MyBank { get; }
         public TransactionManager(Bank bank) {
             MyBank = bank;
+            Transactions = new List<Transaction>();
         }
 
         public T CreateTransaction<T>() where T : Transaction, new() {
@@ -17,7 +18,7 @@ namespace _1809_BankApplication {
             return newTransaction;
         }
 
-        public Transfer TryTransfer(Account sendingAccount, Account receivingAccount, decimal amount) {
+        public Transfer Transfer(Account sendingAccount, Account receivingAccount, decimal amount) {
             if (!HasEnoughFunds(sendingAccount, amount)) return null;
 
             var newTransfer = CreateTransaction<Transfer>();
