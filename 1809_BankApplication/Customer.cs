@@ -24,17 +24,16 @@ namespace _1809_BankApplication {
         public string FullInfoAsString {
             get {
                 string returnString = $"Customer ID:\t\t{ID}\n" +
-                     $"Organization Number:\t{OrgNumber}\n" +
-                     $"Name:\t\t\t{Name}\n" +
-                     $"Address:\t\t{Adress}, {PostalCode} {City}\n" +
-                     $"\n" +
-                     $"Accounts:";
+                                      $"Organization Number:\t{OrgNumber}\n" +
+                                      $"Name:\t\t\t{Name}\n" +
+                                      $"Address:\t\t{Adress}, {PostalCode} {City}\n" +
+                                      $"\n" +
+                                      $"Accounts:";
                 foreach (Account currentAccount in Accounts) {
                     returnString += $"\n{currentAccount.FullInfoAsString}";
                 }
                 return returnString;
             }
-            internal set {; }
         }
 
     }

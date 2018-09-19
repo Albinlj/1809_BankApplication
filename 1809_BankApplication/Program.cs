@@ -3,91 +3,61 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Console;
 
 namespace _1809_BankApplication {
     class Program {
-        public static Database fileManager = new Database();
-        public static CustomerManager customerManager = new CustomerManager();
-        public static TransactionManager transactionManager = new TransactionManager();
-        public static AccountManager accountManager = new AccountManager();
+        public static Database DatabaseManager { get; } = new Database();
+        public static CustomerManager CustomerManager { get; } = new CustomerManager();
+        public static TransactionManager TransactionManager { get; } = new TransactionManager();
+        public static AccountManager AccountManager { get; } = new AccountManager();
+
 
         private static void Main(string[] args) {
             //Load Files
-            customerManager.LoadCustomers();
-            accountManager.LoadAccounts();
+            CustomerManager.LoadCustomers();
+            AccountManager.LoadAccounts();
             Input.PrintMenu();
             do {
-                string input;
-                switch (Input.Query()) {
+                switch (Input.QueryAction()) {
 
                     case Actions.SaveAndExit:
                         break;
-
                     case Actions.SearchCustomer:
-                        Console.WriteLine("* Search Customer *\n" +
-                            "Input name or city: ");
-                        input = Console.ReadLine().ToUpper();
-                        Console.WriteLine();
-                        List<Customer> foundCustomers = customerManager.SearchByNameOrCity(input);
-                        foreach (Customer customer in foundCustomers) {
-                            Console.WriteLine($"{customer.ID}: {customer.Name}");
-                        }
+                        SearchCustomer();
                         break;
-
                     case Actions.ShowCustomerView:
-                        Console.Write("* Show Customer View *\n" +
-                            "Input customer ID: ");
-                        input = Console.ReadLine();
-                        Console.WriteLine();
-                        Customer foundCustomer = customerManager.GetCustomerByID(int.Parse(input));
-                        if (foundCustomer != null) {
-                            Console.WriteLine(foundCustomer.FullInfoAsString);
-                            foreach (Account account in accountManager.GetAccountsByCustomerID(int.Parse(input))) {
-                                Console.WriteLine(account.FullInfoAsString);
-                            }
-                            Console.WriteLine();
-                        }
-                        else {
-                            Console.WriteLine("No customer with that ID found");
-                        }
+                        ShowCustomerView();
                         break;
-
-
                     case Actions.CreateCustomer:
-                        Console.Write("* Create Customer *");
-                        customerManager.CreateCustomerFromQueries();
+                        CreateCustomer();
                         break;
-
                     case Actions.DeleteCustomer:
-                        Console.Write("* Delete Customer *\n" +
-                            " Input Customer ID: ");
-                        input = Console.ReadLine();
-                        customerManager.DeleteCustomer(int.Parse(input));
+                        DeleteCustomer();
                         break;
-
                     case Actions.CreateAccount:
-                        Console.Write("* Create Account *\n" +
-                            "Input Customer ID of Owner: ");
-                        input = Console.ReadLine();
-                        accountManager.AddAccount(int.Parse(input));
+                        CreateAccount();
                         break;
-
                     case Actions.DeleteAccount:
-                        Console.Write("* Delete Account *\n" +
-                            "Input Account ID: ");
-                        input = Console.ReadLine();
-                        accountManager.DeleteAccount(int.Parse(input)) ;
+                        DeleteAccount();
                         break;
                     case Actions.Deposit:
+                        Deposit();
                         break;
                     case Actions.Withdrawal:
+                        Withdrawal();
                         break;
                     case Actions.Transaction:
+                        Transaction();
                         break;
                     case Actions.ShowAccountView:
+                        ShowAccountView();
                         break;
                     case Actions.ApplyInterest:
+                        ApplyInterest();
+                        break;
                     default:
+                        Console.WriteLine("NEIN");
                         break;
                 }
 
@@ -95,6 +65,101 @@ namespace _1809_BankApplication {
 
 
 
+        }
+
+        private static void ApplyInterest() {
+            throw new NotImplementedException();
+        }
+
+        private static void ShowAccountView() {
+            throw new NotImplementedException();
+        }
+
+        private static void Transaction() {
+            throw new NotImplementedException();
+        }
+
+        private static void Withdrawal() {
+            throw new NotImplementedException();
+        }
+
+        private static void Deposit() {
+            throw new NotImplementedException();
+        }
+
+        private static void CreateCustomer() {
+            Write("* Create Customer *\n");
+
+            Customer newCustomer = CustomerManager.CreateCustomer();
+
+            Write("Input name: ");
+            newCustomer.Name = ReadLine();
+            Write("Input organization number: ");
+            newCustomer.OrgNumber = long.Parse(ReadLine());
+            Write("Input street and number: ");
+            newCustomer.Adress = ReadLine();
+            Write("Input city: ");
+            newCustomer.City = ReadLine();
+            Write("Input region: ");
+            newCustomer.Region = ReadLine();
+            Write("Input postal Code: ");
+            newCustomer.PostalCode = ReadLine();
+            Write("Input country: ");
+            newCustomer.Country = ReadLine();
+            Write("Input phone number: ");
+            newCustomer.PhoneNumber = ReadLine();
+
+            AccountManager.AddAccount(newCustomer.ID);
+        }
+
+        private static void DeleteAccount() {
+            Write("* Delete Account *\n" +
+                "Input Account ID: ");
+            string input = ReadLine();
+            AccountManager.DeleteAccount(int.Parse(input));
+        }
+
+        private static void CreateAccount() {
+            Write("* Create Account *\n" +
+                "Input Customer ID of Owner: ");
+            string input = ReadLine();
+            AccountManager.AddAccount(int.Parse(input));
+        }
+
+        private static void DeleteCustomer() {
+            Write("* Delete Customer *\n" +
+                " Input Customer ID: ");
+            string input = ReadLine();
+            CustomerManager.DeleteCustomer(int.Parse(input));
+        }
+
+        private static void ShowCustomerView() {
+            Write("* Show Customer View *\n" +
+                "Input customer ID: ");
+            string input = ReadLine();
+            WriteLine();
+            Customer foundCustomer = CustomerManager.GetCustomerById(int.Parse(input));
+            if (foundCustomer != null) {
+                WriteLine(foundCustomer.FullInfoAsString);
+                foreach (Account account in AccountManager.GetAccountsByCustomerId(int.Parse(input))) {
+                    WriteLine(account.FullInfoAsString);
+                }
+                WriteLine();
+            }
+            else {
+                WriteLine("No customer with that ID found");
+            }
+        }
+
+        private static void SearchCustomer() {
+            WriteLine("* Search Customer *\n" +
+                      "Input name or city: ");
+            string input = ReadLine().ToUpper();
+            WriteLine();
+            List<Customer> foundCustomers = CustomerManager.SearchByNameOrCity(input);
+            foreach (Customer customer in foundCustomers) {
+                WriteLine($"{customer.ID}: {customer.Name}");
+            }
         }
     }
 }

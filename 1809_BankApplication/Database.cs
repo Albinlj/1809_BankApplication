@@ -12,7 +12,7 @@ namespace _1809_BankApplication {
 
         public static List<string[]> LoadCustomers() {
             List<string[]> customerInfoList = new List<string[]>();
-            string path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent?.FullName;
             path += @"\Data\bankdata-small.txt";
 
             string[] strings = File.ReadAllLines(path);
@@ -26,17 +26,29 @@ namespace _1809_BankApplication {
 
         internal static List<string[]> LoadAccounts() {
             List<string[]> accountInfoList = new List<string[]>();
-            string path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent?.FullName;
             path += @"\Data\bankdata-small.txt";
 
             string[] strings = File.ReadAllLines(path);
 
             int customerCount = int.Parse(strings[0]);
             int accountCount = int.Parse(strings[customerCount + 1]);
-            for (int i = customerCount+ 2; i <= customerCount + 1 + accountCount; i++) {
+            for (int i = customerCount + 2; i <= customerCount + 1 + accountCount; i++) {
                 accountInfoList.Add(strings[i].Split(';'));
             }
             return accountInfoList;
+        }
+
+        public void AddTransaction(ITransaction newTransaction) {
+        }
+
+        public void UpdateAccount(IEnumerable<Account> accounts) {
+            foreach (Account account in accounts) {
+                UpdateAccount(account);
+            }
+        }
+
+        public void UpdateAccount(Account account) {
         }
     }
 }

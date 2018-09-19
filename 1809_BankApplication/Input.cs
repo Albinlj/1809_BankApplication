@@ -13,7 +13,7 @@ namespace _1809_BankApplication {
             }
         }
 
-        internal static Actions Query() {
+        internal static Actions QueryAction() {
             string input = Console.ReadLine();
             Console.WriteLine();
             return (Actions)int.Parse(input);
@@ -30,7 +30,7 @@ namespace _1809_BankApplication {
             }
         }
 
-        
+
 
     }
 }

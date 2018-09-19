@@ -24,7 +24,7 @@ namespace _1809_BankApplication {
             }
         }
 
-        public List<Account> GetAccountsByCustomerID(int customerId) {
+        public List<Account> GetAccountsByCustomerId(int customerId) {
             List<Account> returnList = new List<Account>();
             foreach (Account account in accounts) {
                 if (account.OwnerId == customerId) {
@@ -34,7 +34,7 @@ namespace _1809_BankApplication {
             return returnList;
         }
 
-        public Account GetAccountByAccountID(int accountToGetId) {
+        public Account GetAccountByAccountId(int accountToGetId) {
             foreach (Account currentAccount in accounts) {
                 if (currentAccount.Id == accountToGetId) {
                     return currentAccount;
@@ -44,32 +44,32 @@ namespace _1809_BankApplication {
         }
 
         public bool DeleteAccount(int accountToDeleteId) {
-            Account accountToDelete = GetAccountByAccountID(accountToDeleteId);
-            if (accountToDelete != null) {
+            Account accountToDelete = GetAccountByAccountId(accountToDeleteId);
+            if (accountToDelete != null && accountToDelete.Balance == 0) {
                 accounts.Remove(accountToDelete);
-                Program.customerManager.GetCustomerByID(accountToDelete.OwnerId).Accounts.Remove(accountToDelete);
+                Program.CustomerManager.GetCustomerById(accountToDelete.OwnerId).Accounts.Remove(accountToDelete);
                 accountToDelete.OwnerId = 0;
                 return true;
             }
             return false;
         }
 
-        internal void AddAccount(int ownerID) {
-            int currentMaxID = 00000;
+        internal void AddAccount(int ownerId) {
+            int currentMaxId = 00000;
             foreach (Account account in accounts) {
-                if (account.Id > currentMaxID) {
-                    currentMaxID = account.Id;
+                if (account.Id > currentMaxId) {
+                    currentMaxId = account.Id;
                 }
             }
 
             Account newAccount = new Account() {
-                Id = currentMaxID + 1,
-                OwnerId = ownerID,
+                Id = currentMaxId + 1,
+                OwnerId = ownerId,
                 Balance = 0
             };
 
             accounts.Add(newAccount);
-            Program.customerManager.GetCustomerByID(ownerID).Accounts.Add(newAccount);
+            Program.CustomerManager.GetCustomerById(ownerId).Accounts.Add(newAccount);
         }
     }
 }
