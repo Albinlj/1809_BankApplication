@@ -39,7 +39,7 @@ namespace _1809_BankApplication {
             return accountInfoList;
         }
 
-        public void AddTransaction(ITransaction newTransaction) {
+        public void AddTransaction(Transaction newTransaction) {
         }
 
         public void UpdateAccount(IEnumerable<Account> accounts) {

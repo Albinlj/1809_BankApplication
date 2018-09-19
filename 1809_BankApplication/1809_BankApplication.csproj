@@ -48,19 +48,18 @@
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerManager.cs" />
     <Compile Include="Database.cs" />
-    <Compile Include="Deposit.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="ITransaction.cs" />
-    <Compile Include="IHasReceiver.cs" />
-    <Compile Include="IHasSender.cs" />
+    <Compile Include="Transactions\Deposit.cs" />
+    <Compile Include="Transactions\Interfaces\IHasReceiver.cs" />
+    <Compile Include="Transactions\Interfaces\IHasSender.cs" />
     <Compile Include="Input.cs" />
-    <Compile Include="Output.cs" />
+    <Compile Include="Transactions\Transfer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Transfer.cs" />
+    <Compile Include="Transactions\Transaction.cs" />
     <Compile Include="TransactionManager.cs" />
     <Compile Include="Utility.cs" />
-    <Compile Include="Withdrawal.cs" />
+    <Compile Include="Transactions\Withdrawal.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
