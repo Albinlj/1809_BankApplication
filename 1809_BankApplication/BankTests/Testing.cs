@@ -7,20 +7,29 @@ namespace BankTests {
     public class Testing {
         [TestMethod]
         public void WithdrawAndTransfer_ValidAmount() {
-            Bank bank = new Bank();
-            TransactionManager transactionManager = bank.TransactionManager;
-            Account accountA = bank.AccountManager.GetAccountByAccountId(13093);
-            Account accountB = bank.AccountManager.GetAccountByAccountId(13128);
+
+
+            TransactionManager transactionManager = new TransactionManager();
+            Account accountA = new Account() {
+                Balance = 1000,
+                CreditRoof = 2000
+            };
+            Account accountB = new Account() { Balance = 0 };
+
+
             decimal oldBalanceA = accountA.Balance;
             decimal oldBalanceB = accountB.Balance;
-
             transactionManager.Withdraw(accountA, 99999);
             Assert.AreEqual(oldBalanceA, accountA.Balance);
 
+            oldBalanceA = accountA.Balance;
+            oldBalanceB = accountB.Balance;
             transactionManager.Transfer(accountA, accountB, 99999);
             Assert.AreEqual(oldBalanceA, accountA.Balance);
             Assert.AreEqual(oldBalanceB, accountB.Balance);
 
+            oldBalanceA = accountA.Balance;
+            oldBalanceB = accountB.Balance;
             decimal amountToWithdraw = accountA.Balance + accountA.CreditRoof / 2;
             transactionManager.Withdraw(accountA, amountToWithdraw);
             Assert.IsTrue(accountA.Balance < 0);
@@ -54,7 +63,7 @@ namespace BankTests {
             };
 
             for (int i = 0; i < 365; i++) {
-                InterestApplier.ApplyDailyInterest(debitAccount);
+                InterestApplication.ApplyDailyInterest(debitAccount);
             }
             Assert.AreEqual(102, Math.Round(debitAccount.Balance, 2));
         }
@@ -67,7 +76,7 @@ namespace BankTests {
             };
 
             for (int i = 0; i < 365; i++) {
-                InterestApplier.ApplyDailyInterest(debitAccount);
+                InterestApplication.ApplyDailyInterest(debitAccount);
             }
             Assert.AreEqual(-102, Math.Round(debitAccount.Balance, 2));
         }

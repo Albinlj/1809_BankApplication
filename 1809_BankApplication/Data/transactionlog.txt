@@ -117,3 +117,33 @@ Withdrawing Account ID:		13093
 Amount:						1 000,00 kr
 Time:						2018-10-09 15:28:50
 
+Type of Transaction:		Withdrawal
+Withdrawing Customer ID:		1024
+Withdrawing Account ID:		13093
+Amount:						695,62 kr
+Time:						2018-10-09 18:28:52
+
+Type of Transaction:		Deposit
+Receiving Customer ID:		1024
+Receiving Account ID:		13093
+Amount:						51 325 013,00 kr
+Time:						2018-10-09 18:41:21
+
+Type of Transaction:		Withdrawal
+Withdrawing Customer ID:		1024
+Withdrawing Account ID:		13093
+Amount:						5,00 kr
+Time:						2018-10-09 18:42:56
+
+Type of Transaction:		Withdrawal
+Withdrawing Customer ID:		1024
+Withdrawing Account ID:		13093
+Amount:						500,00 kr
+Time:						2018-10-09 18:45:40
+
+Type of Transaction:		Withdrawal
+Withdrawing Customer ID:		1024
+Withdrawing Account ID:		13093
+Amount:						695,62 kr
+Time:						2018-10-09 19:00:12
+

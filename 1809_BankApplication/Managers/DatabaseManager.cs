@@ -10,7 +10,6 @@ using System.Reflection;
 namespace _1809_BankApp {
     public class DatabaseManager {
         public static string LoadPath { get; private set; }
-        public static string SavePath { get; private set; }
         public static string DataPath { get; private set; }
         public Bank MyBank { get; }
 
@@ -18,7 +17,6 @@ namespace _1809_BankApp {
             MyBank = bank;
             DataPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent?.FullName + @"\Data\";
             LoadPath = DataPath + @"bankdata-small.txt";
-            SavePath = DataPath + @"bankdata-small-save.txt";
         }
 
 
@@ -28,6 +26,8 @@ namespace _1809_BankApp {
             string[] strings = File.ReadAllLines(LoadPath);
 
             int customerCount = int.Parse(strings[0]);
+            Console.WriteLine($"Total customers: {customerCount}");
+
             for (int i = 1; i <= customerCount; i++) {
                 customerInfoList.Add(strings[i].Split(';'));
             }
@@ -42,15 +42,20 @@ namespace _1809_BankApp {
 
             int customerCount = int.Parse(strings[0]);
             int accountCount = int.Parse(strings[customerCount + 1]);
+            Console.WriteLine($"Total accounts: {accountCount}");
             for (int i = customerCount + 2; i <= customerCount + 1 + accountCount; i++) {
                 accountInfoList.Add(strings[i].Split(';'));
             }
+
+            decimal totalBalance = accountInfoList.Sum(x => decimal.Parse(x[2]));
+            Console.WriteLine($"Total balance: {totalBalance}\n");
+
 
             return accountInfoList;
         }
 
         public void Save() {
-            string filename = $"{DateTime.Now:yyyy-HHmm}" + ".txt";
+            string filename = $"{DateTime.Now:yyyyMMdd-HHmm}" + ".txt";
             StreamWriter writer = new StreamWriter(DataPath + filename);
             writer.WriteLine(MyBank.CustomerManager.Customers.Count);
             foreach (Customer customer in MyBank.CustomerManager.Customers) {

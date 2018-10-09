@@ -21,6 +21,7 @@ namespace _1809_BankApp {
             return newTransaction;
         }
 
+
         public Transfer Transfer(Account sendingAccount, Account receivingAccount, decimal amount) {
             if (!HasEnoughFunds(sendingAccount, amount) || amount < 0) return null;
 
@@ -36,7 +37,7 @@ namespace _1809_BankApp {
             sendingAccount.Balance -= amount;
 
 
-            MyBank.DatabaseManager.WriteTransactionLog(newTransfer);
+            MyBank?.DatabaseManager.WriteTransactionLog(newTransfer);
 
             return newTransfer;
         }
@@ -52,7 +53,7 @@ namespace _1809_BankApp {
             newDeposit.Amount = amount;
             receivingAccount.Balance += amount;
 
-            MyBank.DatabaseManager.WriteTransactionLog(newDeposit);
+            MyBank?.DatabaseManager.WriteTransactionLog(newDeposit);
 
             return newDeposit;
         }
@@ -70,7 +71,7 @@ namespace _1809_BankApp {
             newTransfer.Amount = amount;
             withdrawingAccount.Balance -= amount;
 
-            MyBank.DatabaseManager.WriteTransactionLog(newTransfer);
+            MyBank?.DatabaseManager.WriteTransactionLog(newTransfer);
 
             return newTransfer;
         }

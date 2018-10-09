@@ -26,7 +26,6 @@ namespace _1809_BankApp {
 
 
                 Accounts.Add(newAccount);
-                // adds the new account to the customers list of owned accounts
                 MyBank.CustomerManager.GetCustomerById(newAccount.OwnerId).MyAccounts.Add(newAccount);
             }
         }

@@ -15,6 +15,7 @@ namespace _1809_BankApp {
         public CustomerManager(Bank bank) {
             MyBank = bank;
         }
+
         internal void LoadCustomers() {
             List<string[]> customerInfo = DatabaseManager.LoadCustomersInfo();
             foreach (string[] info in customerInfo) {
@@ -70,14 +71,14 @@ namespace _1809_BankApp {
             return newCustomer;
         }
 
-        internal void DeleteCustomer(int IdToDelete) {
+        internal bool DeleteCustomer(int IdToDelete) {
             var customerAccounts = MyBank.AccountManager.GetAccountsByCustomerId(IdToDelete);
             if (customerAccounts.Any() == false) {
                 Customers.Remove(GetCustomerById(IdToDelete));
+                return true;
             }
-            else {
-                Console.WriteLine("Customer still has accounts - Can not delete customer.");
-            }
+
+            return false;
         }
     }
 }

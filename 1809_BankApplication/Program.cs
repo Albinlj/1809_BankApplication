@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using _1809_BankApp.Transactions;
 using static System.Console;
 
@@ -14,6 +11,10 @@ namespace _1809_BankApp {
 
         private static void Main(string[] args) {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("se");
+            StartMenuLoop();
+        }
+
+        private static void StartMenuLoop() {
             PrintMenu();
             do {
                 WriteLine();
@@ -64,30 +65,32 @@ namespace _1809_BankApp {
 
         private static void SaveAndExit() {
             MyBank.DatabaseManager.Save();
+            Environment.Exit(0);
         }
 
         private static void ApplyInterest() {
             foreach (Account account in MyBank.AccountManager.Accounts) {
-                InterestApplier.ApplyDailyInterest(account);
+                InterestApplication.ApplyDailyInterest(account);
             }
         }
 
         private static void ShowAccountView() {
-            int accountId = QueryInt("Input ID of account: ");
+            int accountId = ConsoleQueries.QueryInt("Input ID of account: ");
 
-            Account receivingAccount = MyBank.AccountManager.GetAccountByAccountId(accountId);
+            Account account = MyBank.AccountManager.GetAccountByAccountId(accountId);
 
-            if (receivingAccount == null) {
+            if (account == null) {
                 WriteLine("No Account with that ID found.");
             }
             else {
                 const int spacing1 = -30;
                 const string divider = "-    ";
-                string info = $"{"ID:",spacing1}{divider}{receivingAccount.Id}\n" +
-                              $"{"Owner Customer ID",spacing1}{divider}{receivingAccount.OwnerId}\n" +
+                string info = $"{"ID:",spacing1}{divider}{account.Id}\n" +
+                              $"{"Owner Customer ID",spacing1}{divider}{account.OwnerId}\n" +
+                              $"{"Balance",spacing1}{divider}{account.Balance:C}\n" +
                               $"\n" +
                               $"Today's Transactions:";
-                foreach (Transaction transaction in MyBank.TransactionManager.GetTransactionsFromAccountId(receivingAccount.Id)) {
+                foreach (Transaction transaction in MyBank.TransactionManager.GetTransactionsFromAccountId(account.Id)) {
                     info += $"\n{transaction.InfoAsText}";
                     info += "\n";
                 }
@@ -98,29 +101,9 @@ namespace _1809_BankApp {
 
         }
 
-        private static string QueryString(string message) {
-            Console.Write(message);
-            return ReadLine();
-        }
-
-
-        private static int QueryInt(string message) {
-            Write(message);
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            int output;
-            bool wasSuccess;
-            do {
-                wasSuccess = int.TryParse(ReadLine(), out output);
-                if (wasSuccess == false) Console.WriteLine("Not a valid integer. Try again!");
-            } while (wasSuccess == false);
-
-            Console.ForegroundColor = ConsoleColor.Gray;
-
-            return output;
-        }
 
         internal static Actions QueryAndPrintAction() {
-            Actions chosenAction = (Actions)QueryInt("Input Number of Menu Choice: ");
+            Actions chosenAction = (Actions)ConsoleQueries.QueryInt("Input Number of Menu Choice: ");
             Console.WriteLine();
             if (Enum.IsDefined(typeof(Actions), chosenAction)) {
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -131,9 +114,9 @@ namespace _1809_BankApp {
         }
 
         private static void Transferral() {
-            int sendingAccountId = QueryInt("Input ID of sending account: ");
-            int receivingAccountId = QueryInt("Input ID of receiving account: ");
-            int amount = QueryInt("Input amount: ");
+            int sendingAccountId = ConsoleQueries.QueryInt("Input ID of sending account: ");
+            int receivingAccountId = ConsoleQueries.QueryInt("Input ID of receiving account: ");
+            int amount = ConsoleQueries.QueryInt("Input amount: ");
 
             Account sendingAccount = MyBank.AccountManager.GetAccountByAccountId(sendingAccountId);
             Account receivingAccount = MyBank.AccountManager.GetAccountByAccountId(receivingAccountId);
@@ -155,8 +138,8 @@ namespace _1809_BankApp {
         }
 
         private static void Withdrawal() {
-            int accountId = QueryInt("Input ID of withdrawing account: ");
-            int amount = QueryInt("Input amount: ");
+            int accountId = ConsoleQueries.QueryInt("Input ID of withdrawing account: ");
+            decimal amount = ConsoleQueries.QueryDecimal("Input amount: ");
 
             Account withdrawingAccount = MyBank.AccountManager.GetAccountByAccountId(accountId);
             if (withdrawingAccount == null) {
@@ -175,8 +158,8 @@ namespace _1809_BankApp {
         }
 
         private static void Deposit() {
-            int accountId = QueryInt("Input ID of receiving account: ");
-            int amount = QueryInt("Input amount: ");
+            int accountId = ConsoleQueries.QueryInt("Input ID of receiving account: ");
+            int amount = ConsoleQueries.QueryInt("Input amount: ");
 
             Account receivingAccount = MyBank.AccountManager.GetAccountByAccountId(accountId);
             if (receivingAccount == null) {
@@ -191,40 +174,53 @@ namespace _1809_BankApp {
         private static void CreateCustomer() {
             Customer newCustomer = MyBank.CustomerManager.CreateNewCustomer();
 
-            newCustomer.Name = QueryString("Input name: ");
-            newCustomer.OrgNumber = QueryInt("Input organization number: ");
+            newCustomer.Name = ConsoleQueries.QueryString("Input name: ");
+            newCustomer.OrgNumber = ConsoleQueries.QueryInt("Input organization number: ");
             if (newCustomer.OrgNumber.ToString().Length != 10) {
                 Console.WriteLine("Orgnumber has to be 10 numbers. Aborting.");
                 return;
             }
-            newCustomer.Adress = QueryString("Input street and number: ");
-            newCustomer.City = QueryString("Input city: ");
-            newCustomer.Region = QueryString("Input region: ");
-            newCustomer.PostalCode = QueryString("Input postal Code: ");
-            newCustomer.Country = QueryString("Input country: ");
-            newCustomer.PhoneNumber = QueryString("Input phone number: ");
+
+            newCustomer.Adress = ConsoleQueries.QueryString("Input street and number: ");
+            newCustomer.City = ConsoleQueries.QueryString("Input city: ");
+            newCustomer.Region = ConsoleQueries.QueryString("Input region: ");
+            newCustomer.PostalCode = ConsoleQueries.QueryString("Input postal Code: ");
+            newCustomer.Country = ConsoleQueries.QueryString("Input country: ");
+            newCustomer.PhoneNumber = ConsoleQueries.QueryString("Input phone number: ");
 
 
             MyBank.AccountManager.AddAccount(newCustomer.ID);
         }
 
         private static void DeleteAccount() {
-            int inputAccountId = QueryInt("Input Account ID: ");
-            MyBank.AccountManager.DeleteAccount(inputAccountId);
+            int inputAccountId = ConsoleQueries.QueryInt("Input Account ID: ");
+            bool wasSuccessful = MyBank.AccountManager.DeleteAccount(inputAccountId);
+            if (wasSuccessful) {
+                WriteLine("Successfully deleted account.");
+            }
+            else {
+                WriteLine("Cannot delete Account.");
+            }
         }
 
         private static void CreateAccount() {
-            int inputAccountId = QueryInt("Input Customer ID of Owner: ");
+            int inputAccountId = ConsoleQueries.QueryInt("Input Customer ID of Owner: ");
             MyBank.AccountManager.AddAccount(inputAccountId);
         }
 
         private static void DeleteCustomer() {
-            int inputAccountId = QueryInt("Input Customer ID: ");
-            MyBank.CustomerManager.DeleteCustomer(inputAccountId);
+            int inputAccountId = ConsoleQueries.QueryInt("Input Customer ID: ");
+            bool wasSuccessful = MyBank.CustomerManager.DeleteCustomer(inputAccountId);
+            if (wasSuccessful) {
+                WriteLine("Successfully deleted customer.");
+            }
+            else {
+                WriteLine("Customer still has accounts - Can not delete customer.");
+            }
         }
 
         private static void ShowCustomerView() {
-            int inputCustomerId = QueryInt("Input customer ID: ");
+            int inputCustomerId = ConsoleQueries.QueryInt("Input customer ID: ");
             WriteLine();
             Customer foundCustomer = MyBank.CustomerManager.GetCustomerById(inputCustomerId);
             if (foundCustomer == null) {
@@ -236,7 +232,7 @@ namespace _1809_BankApp {
         }
 
         private static void SearchCustomer() {
-            string input = QueryString("Input name or city: ").ToUpper();
+            string input = ConsoleQueries.QueryString("Input name or city: ").ToUpper();
             WriteLine();
             List<Customer> foundCustomers = MyBank.CustomerManager.SearchByNameOrCity(input);
             if (foundCustomers.Count == 0) {
