@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using _1809_BankApplication.Transactions;
+using _1809_BankApp.Transactions;
 
-namespace _1809_BankApplication {
-    class TransactionManager {
-        public List<Transaction> Transactions { get; set; }
+namespace _1809_BankApp {
+    public class TransactionManager {
+        public List<Transaction> Transactions { get; set; } = new List<Transaction>();
 
         public Bank MyBank { get; }
         public TransactionManager(Bank bank) {
             MyBank = bank;
-            Transactions = new List<Transaction>();
+        }
+
+        public TransactionManager() {
         }
 
         public T CreateTransaction<T>() where T : Transaction, new() {
@@ -20,7 +22,7 @@ namespace _1809_BankApplication {
         }
 
         public Transfer Transfer(Account sendingAccount, Account receivingAccount, decimal amount) {
-            if (!HasEnoughFunds(sendingAccount, amount)) return null;
+            if (!HasEnoughFunds(sendingAccount, amount) || amount < 0) return null;
 
             var newTransfer = CreateTransaction<Transfer>();
 
@@ -41,6 +43,7 @@ namespace _1809_BankApplication {
 
         public Deposit Deposit(Account receivingAccount, decimal amount) {
 
+            if (amount < 0) return null;
             var newDeposit = CreateTransaction<Deposit>();
 
             newDeposit.AccountReceiverId = receivingAccount.Id;
@@ -55,7 +58,9 @@ namespace _1809_BankApplication {
         }
 
         public Withdrawal Withdraw(Account withdrawingAccount, decimal amount) {
-            if (!HasEnoughFunds(withdrawingAccount, amount)) return null;
+            if (!HasEnoughFunds(withdrawingAccount, amount) || amount < 0) {
+                return null;
+            }
 
             var newTransfer = CreateTransaction<Withdrawal>();
 

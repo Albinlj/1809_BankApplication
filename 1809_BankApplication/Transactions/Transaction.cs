@@ -1,7 +1,7 @@
 ﻿using System;
 
-namespace _1809_BankApplication {
-    internal abstract class Transaction {
+namespace _1809_BankApp {
+    public abstract class Transaction {
         public decimal Amount { get; set; }
         public DateTime TimeOfTransaction { get; set; }
         public string AmountString => $"Amount:\t\t\t\t\t\t{Amount:c}";

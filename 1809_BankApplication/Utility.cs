@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace _1809_BankApplication {
+namespace _1809_BankApp {
     public static class Utility {
 
         public static string PascalToTitlecase(string pascal) {

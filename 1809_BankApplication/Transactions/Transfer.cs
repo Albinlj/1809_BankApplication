@@ -1,5 +1,5 @@
-﻿namespace _1809_BankApplication {
-    class Transfer : Transaction, IHasSender, IHasReceiver {
+﻿namespace _1809_BankApp {
+    public class Transfer : Transaction, IHasSender, IHasReceiver {
         public int AccountSenderId { get; set; }
         public int CustomerSenderId { get; set; }
         public int AccountReceiverId { get; set; }

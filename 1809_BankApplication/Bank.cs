@@ -1,5 +1,5 @@
-﻿namespace _1809_BankApplication {
-    class Bank {
+﻿namespace _1809_BankApp {
+    public class Bank {
         public DatabaseManager DatabaseManager { get; }
         public CustomerManager CustomerManager { get; }
         public TransactionManager TransactionManager { get; }

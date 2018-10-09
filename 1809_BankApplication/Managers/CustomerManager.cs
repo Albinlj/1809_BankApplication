@@ -5,8 +5,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace _1809_BankApplication {
-    class CustomerManager {
+namespace _1809_BankApp {
+    public class CustomerManager {
         public List<Customer> Customers { get; } = new List<Customer>();
 
 

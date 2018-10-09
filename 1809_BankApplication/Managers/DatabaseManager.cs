@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
 
-namespace _1809_BankApplication {
-    class DatabaseManager {
+namespace _1809_BankApp {
+    public class DatabaseManager {
         public static string LoadPath { get; private set; }
         public static string SavePath { get; private set; }
         public static string DataPath { get; private set; }

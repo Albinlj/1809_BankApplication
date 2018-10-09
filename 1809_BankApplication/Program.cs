@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using _1809_BankApplication.Transactions;
+using _1809_BankApp.Transactions;
 using static System.Console;
 
-namespace _1809_BankApplication {
+namespace _1809_BankApp {
     class Program {
         public static Bank MyBank { get; } = new Bank();
 
         private static void Main(string[] args) {
-            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("se");
             PrintMenu();
             do {
                 WriteLine();
@@ -67,7 +67,9 @@ namespace _1809_BankApplication {
         }
 
         private static void ApplyInterest() {
-            MyBank.AccountManager.ApplyDailyInterest();
+            foreach (Account account in MyBank.AccountManager.Accounts) {
+                InterestApplier.ApplyDailyInterest(account);
+            }
         }
 
         private static void ShowAccountView() {
@@ -166,7 +168,7 @@ namespace _1809_BankApplication {
                     Console.WriteLine($"Withdrawal failed due to lack of funds.");
                 }
                 else {
-                    Console.WriteLine($"Successfully Withdrew {amount.ToString("C", CultureInfo.InvariantCulture)} from {accountId}");
+                    Console.WriteLine($"Successfully Withdrew {amount:C} from {accountId}");
                 }
             }
 

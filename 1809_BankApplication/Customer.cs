@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _1809_BankApplication {
-    class Customer {
+namespace _1809_BankApp {
+    public class Customer {
         public int ID { get; set; }
         public long OrgNumber { get; set; }
         public string Name { get; set; }
@@ -25,10 +25,10 @@ namespace _1809_BankApplication {
             get {
                 const int spacing1 = -30;
                 const string divider = "-    ";
-                string returnString = $"{"Customer ID:", spacing1}{divider}{ID}\n" +
-                                      $"{"Organization Number", spacing1}{divider}{OrgNumber}\n" +
+                string returnString = $"{"Customer ID:",spacing1}{divider}{ID}\n" +
+                                      $"{"Organization Number",spacing1}{divider}{OrgNumber}\n" +
                                       $"{"Name:",spacing1}{divider}{Name}\n" +
-                                      $"{"address:", spacing1}{divider}{Adress}, {PostalCode} {City}\n" +
+                                      $"{"address:",spacing1}{divider}{Adress}, {PostalCode} {City}\n" +
                                       $"\n" +
                                       $"Owned Accounts:";
                 foreach (Account currentAccount in MyAccounts) {

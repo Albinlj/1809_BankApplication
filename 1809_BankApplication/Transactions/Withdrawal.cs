@@ -1,7 +1,7 @@
 ﻿using System;
 
-namespace _1809_BankApplication {
-    class Withdrawal : Transaction, IHasReceiver {
+namespace _1809_BankApp {
+    public class Withdrawal : Transaction, IHasReceiver {
         public int AccountReceiverId { get; set; }
         public int CustomerReceiverId { get; set; }
 

@@ -46,6 +46,7 @@
     <Compile Include="Bank.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="InterestApplier.cs" />
     <Compile Include="Managers\AccountManager.cs" />
     <Compile Include="Managers\CustomerManager.cs" />
     <Compile Include="Managers\DatabaseManager.cs" />

@@ -6,8 +6,8 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _1809_BankApplication {
-    class AccountManager {
+namespace _1809_BankApp {
+    public class AccountManager {
         public Bank MyBank { get; }
         public List<Account> Accounts { get; } = new List<Account>();
 
@@ -18,7 +18,7 @@ namespace _1809_BankApplication {
         public void LoadAccounts() {
             List<string[]> accountInfos = DatabaseManager.LoadAccountsInfo();
             foreach (string[] info in accountInfos) {
-                Account newAccount = new Account(this) {
+                Account newAccount = new Account() {
                     Id = int.Parse(info[0]),
                     OwnerId = int.Parse(info[1]),
                     Balance = decimal.Parse(info[2], CultureInfo.InvariantCulture)
@@ -63,7 +63,7 @@ namespace _1809_BankApplication {
                 }
             }
 
-            Account newAccount = new Account(this) {
+            Account newAccount = new Account() {
                 Id = currentMaxId + 1,
                 OwnerId = ownerId,
                 Balance = 0
@@ -75,11 +75,6 @@ namespace _1809_BankApplication {
             ownerOfNewAccount.MyAccounts.Add(newAccount);
         }
 
-        public void ApplyDailyInterest() {
-            foreach (Account account in Accounts) {
-                double interestToUse = account.Balance > 0 ? account.DebitInterestYearly : account.CreditInterestYearly;
-                account.Balance = account.Balance * (decimal)Math.Pow((interestToUse), 1 / 365d);
-            }
-        }
+
     }
 }

@@ -117,3 +117,63 @@ Withdrawing Account ID:		13093
 Amount:						1 000,00 kr
 Time:						2018-10-09 15:28:50
 
+Type of Transaction:		Withdrawal
+Withdrawing Customer ID:		1024
+Withdrawing Account ID:		13093
+Amount:						($100.00)
+Time:						2018-10-09 15:59:02
+
+Type of Transaction:		Withdrawal
+Withdrawing Customer ID:		1024
+Withdrawing Account ID:		13093
+Amount:						$99.00
+Time:						2018-10-09 16:28:45
+
+Type of Transaction:		Withdrawal
+Withdrawing Customer ID:		1024
+Withdrawing Account ID:		13093
+Amount:						$1,000.00
+Time:						2018-10-09 16:31:09
+
+Type of Transaction:		Withdrawal
+Withdrawing Customer ID:		1024
+Withdrawing Account ID:		13093
+Amount:						$5,695.62
+Time:						2018-10-09 16:32:00
+
+Type of Transaction:		Withdrawal
+Withdrawing Customer ID:		1024
+Withdrawing Account ID:		13093
+Amount:						$5,695.62
+Time:						2018-10-09 16:38:20
+
+Type of Transaction:		Withdrawal
+Withdrawing Customer ID:		1024
+Withdrawing Account ID:		13093
+Amount:						$5,695.62
+Time:						2018-10-09 18:05:08
+
+Type of Transaction:		Withdrawal
+Withdrawing Customer ID:		1024
+Withdrawing Account ID:		13093
+Amount:						$5,695.62
+Time:						2018-10-09 18:06:38
+
+Type of Transaction:		Withdrawal
+Withdrawing Customer ID:		1024
+Withdrawing Account ID:		13093
+Amount:						$5,695.62
+Time:						2018-10-09 18:07:17
+
+Type of Transaction:		Withdrawal
+Withdrawing Customer ID:		1024
+Withdrawing Account ID:		13093
+Amount:						$5,695.62
+Time:						2018-10-09 18:07:27
+
+Type of Transaction:		Withdrawal
+Withdrawing Customer ID:		1024
+Withdrawing Account ID:		13093
+Amount:						$5,695.62
+Time:						2018-10-09 18:07:59
+

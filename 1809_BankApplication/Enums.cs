@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _1809_BankApplication {
+namespace _1809_BankApp {
     enum Actions {
         SaveAndExit,
         SearchCustomer,
