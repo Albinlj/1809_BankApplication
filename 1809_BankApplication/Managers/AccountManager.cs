@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace _1809_BankApplication {
     class AccountManager {
         public Bank MyBank { get; }
-        public static AccountManager instance;
         public List<Account> Accounts { get; } = new List<Account>();
 
         public AccountManager(Bank bank) {
@@ -15,24 +16,23 @@ namespace _1809_BankApplication {
         }
 
         public void LoadAccounts() {
-            List<string[]> accountInfos = DatabaseManager.LoadAccounts();
+            List<string[]> accountInfos = DatabaseManager.LoadAccountsInfo();
             foreach (string[] info in accountInfos) {
-                Accounts.Add(new Account(this) {
+                Account newAccount = new Account(this) {
                     Id = int.Parse(info[0]),
                     OwnerId = int.Parse(info[1]),
-                    Balance = decimal.Parse(info[2])
-                });
+                    Balance = decimal.Parse(info[2], CultureInfo.InvariantCulture)
+                };
+
+
+                Accounts.Add(newAccount);
+                // adds the new account to the customers list of owned accounts
+                MyBank.CustomerManager.GetCustomerById(newAccount.OwnerId).MyAccounts.Add(newAccount);
             }
         }
 
-        public List<Account> GetAccountsByCustomerId(int customerId) {
-            List<Account> returnList = new List<Account>();
-            foreach (Account account in Accounts) {
-                if (account.OwnerId == customerId) {
-                    returnList.Add(account);
-                }
-            }
-            return returnList;
+        public IEnumerable<Account> GetAccountsByCustomerId(int customerId) {
+            return (Accounts.Where(account => account.OwnerId == customerId));
         }
 
         public Account GetAccountByAccountId(int accountToGetId) {
@@ -73,6 +73,13 @@ namespace _1809_BankApplication {
 
             Customer ownerOfNewAccount = MyBank.CustomerManager.GetCustomerById(ownerId);
             ownerOfNewAccount.MyAccounts.Add(newAccount);
+        }
+
+        public void ApplyDailyInterest() {
+            foreach (Account account in Accounts) {
+                double interestToUse = account.Balance > 0 ? account.DebitInterestYearly : account.CreditInterestYearly;
+                account.Balance = account.Balance * (decimal)Math.Pow((interestToUse), 1 / 365d);
+            }
         }
     }
 }

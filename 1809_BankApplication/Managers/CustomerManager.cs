@@ -12,11 +12,11 @@ namespace _1809_BankApplication {
 
 
         public Bank MyBank { get; }
-        public CustomerManager (Bank bank) {
+        public CustomerManager(Bank bank) {
             MyBank = bank;
         }
         internal void LoadCustomers() {
-            List<string[]> customerInfo = DatabaseManager.LoadCustomers();
+            List<string[]> customerInfo = DatabaseManager.LoadCustomersInfo();
             foreach (string[] info in customerInfo) {
                 Customers.Add(new Customer() {
                     ID = int.Parse(info[0]),
@@ -32,13 +32,7 @@ namespace _1809_BankApplication {
 
             }
         }
-        public string CustomersAsString() {
-            string outputString = "";
-            foreach (Customer customer in Customers) {
-                outputString += $"{ customer.AsString }\n";
-            }
-            return outputString;
-        }
+
 
         public Customer GetCustomerById(int inputId) {
             foreach (Customer customer in Customers) {
@@ -50,6 +44,9 @@ namespace _1809_BankApplication {
         }
 
         public List<Customer> SearchByNameOrCity(string searchString) {
+
+
+            //Old Solution without LINQ
             List<Customer> returnList = new List<Customer>();
             foreach (Customer customer in Customers) {
                 if (Regex.IsMatch(customer.Name.ToUpper() + " " + customer.City.ToUpper(), $"{ searchString}")) {
@@ -59,8 +56,7 @@ namespace _1809_BankApplication {
             return returnList;
         }
 
-        public Customer CreateNewCustomer()
-        {
+        public Customer CreateNewCustomer() {
             Customer newCustomer = new Customer();
 
             int currentMaxId = 0000;
@@ -74,10 +70,10 @@ namespace _1809_BankApplication {
             return newCustomer;
         }
 
-        internal void DeleteCustomer(int inputDeleteId) {
-            var customerAccounts = AccountManager.instance.GetAccountsByCustomerId(inputDeleteId);
-            if (customerAccounts.Count == 0) {
-                Customers.Remove(GetCustomerById(inputDeleteId));
+        internal void DeleteCustomer(int IdToDelete) {
+            var customerAccounts = MyBank.AccountManager.GetAccountsByCustomerId(IdToDelete);
+            if (customerAccounts.Any() == false) {
+                Customers.Remove(GetCustomerById(IdToDelete));
             }
             else {
                 Console.WriteLine("Customer still has accounts - Can not delete customer.");

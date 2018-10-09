@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using _1809_BankApplication.Transactions;
 
 namespace _1809_BankApplication {
@@ -32,13 +33,13 @@ namespace _1809_BankApplication {
             receivingAccount.Balance += amount;
             sendingAccount.Balance -= amount;
 
-            MyBank.DatabaseManager.AddTransaction(newTransfer);
-            MyBank.DatabaseManager.UpdateAccount(new List<Account>() {sendingAccount, receivingAccount});
+
+            MyBank.DatabaseManager.WriteTransactionLog(newTransfer);
 
             return newTransfer;
         }
 
-        public Deposit Deposit( Account receivingAccount, decimal amount) {
+        public Deposit Deposit(Account receivingAccount, decimal amount) {
 
             var newDeposit = CreateTransaction<Deposit>();
 
@@ -48,8 +49,7 @@ namespace _1809_BankApplication {
             newDeposit.Amount = amount;
             receivingAccount.Balance += amount;
 
-            MyBank.DatabaseManager.AddTransaction(newDeposit);
-            MyBank.DatabaseManager.UpdateAccount(receivingAccount);
+            MyBank.DatabaseManager.WriteTransactionLog(newDeposit);
 
             return newDeposit;
         }
@@ -65,15 +65,34 @@ namespace _1809_BankApplication {
             newTransfer.Amount = amount;
             withdrawingAccount.Balance -= amount;
 
-            MyBank.DatabaseManager.AddTransaction(newTransfer);
-            MyBank.DatabaseManager.UpdateAccount(withdrawingAccount);
+            MyBank.DatabaseManager.WriteTransactionLog(newTransfer);
 
             return newTransfer;
         }
 
 
         private static bool HasEnoughFunds(Account accountSending, decimal amount) {
-            return accountSending.Balance - amount >= accountSending.CreditRoof;
+            return accountSending.Balance - amount >= -accountSending.CreditRoof;
+        }
+
+        public IEnumerable<Transaction> GetTransactionsFromAccountId(int searchAccountId) {
+            List<Transaction> returnTransactions = new List<Transaction>();
+            foreach (Transaction transaction in Transactions) {
+                if (transaction is IHasReceiver) {
+                    IHasReceiver transactionWithReceive = (IHasReceiver)transaction;
+                    if (transactionWithReceive.AccountReceiverId == searchAccountId) {
+                        returnTransactions.Add(transaction);
+                    }
+                }
+                if (transaction is IHasSender) {
+                    IHasSender transactionWithSender = (IHasSender)transaction;
+                    if (transactionWithSender.AccountSenderId == searchAccountId) {
+                        returnTransactions.Add(transaction);
+                    }
+                }
+            }
+
+            return returnTransactions;
         }
     }
 }

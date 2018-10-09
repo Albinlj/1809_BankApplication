@@ -7,11 +7,7 @@ using System.Threading.Tasks;
 
 namespace _1809_BankApplication {
     static class Menu {
-        internal static Actions QueryAction() {
-            string input = Console.ReadLine();
-            Console.WriteLine();
-            return (Actions)int.Parse(input);
-        }
+
 
         public static int? QueryInt() {
             while (true) {

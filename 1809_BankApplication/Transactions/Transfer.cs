@@ -5,10 +5,12 @@
         public int AccountReceiverId { get; set; }
         public int CustomerReceiverId { get; set; }
 
-        public string InfoAsText => ($"Sending Customer ID:\t\t{CustomerSenderId}\n" +
-                                     $"Receiving Customer ID:\t\t{CustomerReceiverId}\n" +
-                                     $"Sending Account ID:\t\t{AccountSenderId}\n" +
-                                     $"Receiving Account ID:\t\t{AccountReceiverId}\n" + 
-                                     $"{AmountAndTimeString}");
+        public override string InfoAsText => ($"Type of Transaction:\t\tTransfer\n" +
+                                              $"Sending Customer ID:\t\t{CustomerSenderId}\n" +
+                                              $"Receiving Customer ID:\t\t{CustomerReceiverId}\n" +
+                                              $"Sending Account ID:\t\t\t{AccountSenderId}\n" +
+                                              $"Receiving Account ID:\t\t{AccountReceiverId}\n" +
+                                              $"{AmountString}\n" +
+                                              $"{TimeString}");
     }
 }

@@ -15,7 +15,7 @@ namespace _1809_BankApplication {
         DeleteAccount,
         Deposit,
         Withdrawal,
-        Transaction,
+        Transferral,
         ApplyInterest,
         ShowAccountView
     }

@@ -23,12 +23,14 @@ namespace _1809_BankApplication {
 
         public string FullInfoAsString {
             get {
-                string returnString = $"Customer ID:\t\t{ID}\n" +
-                                      $"Organization Number:\t{OrgNumber}\n" +
-                                      $"Name:\t\t\t{Name}\n" +
-                                      $"Address:\t\t{Adress}, {PostalCode} {City}\n" +
+                const int spacing1 = -30;
+                const string divider = "-    ";
+                string returnString = $"{"Customer ID:", spacing1}{divider}{ID}\n" +
+                                      $"{"Organization Number", spacing1}{divider}{OrgNumber}\n" +
+                                      $"{"Name:",spacing1}{divider}{Name}\n" +
+                                      $"{"address:", spacing1}{divider}{Adress}, {PostalCode} {City}\n" +
                                       $"\n" +
-                                      $"MyAccounts:";
+                                      $"Owned Accounts:";
                 foreach (Account currentAccount in MyAccounts) {
                     returnString += $"\n{currentAccount.FullInfoAsString}";
                 }

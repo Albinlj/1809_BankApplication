@@ -4,6 +4,12 @@ namespace _1809_BankApplication {
     internal abstract class Transaction {
         public decimal Amount { get; set; }
         public DateTime TimeOfTransaction { get; set; }
-        public string AmountAndTimeString => $"Amount:\t\t\t{Amount} transferred at {TimeOfTransaction}";
+        public string AmountString => $"Amount:\t\t\t\t\t\t{Amount:c}";
+        public string TimeString => $"Time:\t\t\t\t\t\t{TimeOfTransaction}";
+        public virtual string InfoAsText { get; } = "";
+
+        public Transaction() {
+            TimeOfTransaction = DateTime.Now;
+        }
     }
 }
