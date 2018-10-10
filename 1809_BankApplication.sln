@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1809_BankApp", "1809_BankApplication\1809_BankApp.csproj", "{781298AF-3AE4-4D7D-8D03-1FC00FD246E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp", "1809_BankApplication\BankApp.csproj", "{781298AF-3AE4-4D7D-8D03-1FC00FD246E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankTests", "1809_BankApplication\BankTests\BankTests.csproj", "{3127900B-53B8-4449-A6E4-C3DD4872036F}"
 EndProject

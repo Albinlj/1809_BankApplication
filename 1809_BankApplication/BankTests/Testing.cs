@@ -33,7 +33,7 @@ namespace BankTests {
             decimal amountToWithdraw = accountA.Balance + accountA.CreditRoof / 2;
             transactionManager.Withdraw(accountA, amountToWithdraw);
             Assert.IsTrue(accountA.Balance < 0);
-            Assert.IsTrue(accountA.Balance > -accountA.CreditRoof);
+            Assert.IsTrue(accountA.Balance >= -accountA.CreditRoof);
         }
 
         [TestMethod]

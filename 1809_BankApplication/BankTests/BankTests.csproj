@@ -56,9 +56,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\1809_BankApp.csproj">
+    <ProjectReference Include="..\BankApp.csproj">
       <Project>{781298af-3ae4-4d7d-8d03-1fc00fd246e0}</Project>
-      <Name>1809_BankApp</Name>
+      <Name>BankApp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
