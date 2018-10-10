@@ -1,0 +1,2 @@
+﻿[10/10/2018 11:50:08 AM Informational] ------ Run test started ------
+[10/10/2018 11:50:17 AM Informational] ========== Run test finished: 4 run (0:00:08.5272712) ==========

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
+using System.Globalization;
 
 namespace _1809_BankApp {
     public class DatabaseManager {
@@ -16,7 +17,7 @@ namespace _1809_BankApp {
         public DatabaseManager(Bank bank) {
             MyBank = bank;
             DataPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent?.FullName + @"\Data\";
-            LoadPath = DataPath + @"bankdata-small.txt";
+            LoadPath = DataPath + @"bankdata.txt";
         }
 
 
@@ -47,7 +48,7 @@ namespace _1809_BankApp {
                 accountInfoList.Add(strings[i].Split(';'));
             }
 
-            decimal totalBalance = accountInfoList.Sum(x => decimal.Parse(x[2]));
+            decimal totalBalance = accountInfoList.Sum(x => decimal.Parse(x[2], CultureInfo.InvariantCulture));
             Console.WriteLine($"Total balance: {totalBalance}\n");
 
 
