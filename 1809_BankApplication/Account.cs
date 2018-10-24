@@ -24,7 +24,7 @@ namespace _1809_BankApp {
             set => _creditInterestYearly = value > 0 ? value : 0;
         }
 
-        public decimal CreditRoof { get; set; } = 10000;
+        public decimal CreditRoof { get; set; } = 0;
 
         public string BalanceString => $"{Balance:C}";
         public string FullInfoAsString => $"{Id,-30}:{BalanceString,20}";

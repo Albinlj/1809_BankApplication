@@ -22,6 +22,41 @@ namespace _1809_BankApp {
             return output;
         }
 
+        public static long QueryLong(string message)
+        {
+            Console.Write(message);
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            long output;
+            bool wasSuccess;
+            do
+            {
+                wasSuccess = long.TryParse(Console.ReadLine(), out output);
+                if (wasSuccess == false) Console.WriteLine("Not a valid integer. Try again!");
+            } while (wasSuccess == false);
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+
+            return output;
+        }
+
+
+        public static double QueryDouble(string message)
+        {
+            Console.Write(message);
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            double output;
+            bool wasSuccess;
+            do
+            {
+                wasSuccess = double.TryParse(Console.ReadLine(), out output);
+                if (wasSuccess == false) Console.WriteLine("Not a valid integer. Try again!");
+            } while (wasSuccess == false);
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+
+            return output;
+        }
+
         public static decimal QueryDecimal(string message) {
             Console.Write(message);
             Console.ForegroundColor = ConsoleColor.DarkYellow;

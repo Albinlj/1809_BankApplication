@@ -49,7 +49,7 @@ namespace _1809_BankApp {
             }
 
             decimal totalBalance = accountInfoList.Sum(x => decimal.Parse(x[2], CultureInfo.InvariantCulture));
-            Console.WriteLine($"Total balance: {totalBalance}\n");
+            Console.WriteLine($"Total balance: {totalBalance:C}\n");
 
 
             return accountInfoList;
@@ -57,7 +57,9 @@ namespace _1809_BankApp {
 
         public void Save() {
             string filename = $"{DateTime.Now:yyyyMMdd-HHmm}" + ".txt";
+            Console.WriteLine($"Saving to file {filename}...");
             StreamWriter writer = new StreamWriter(DataPath + filename);
+            Console.WriteLine($"Total customers:{MyBank.CustomerManager.Customers.Count}");
             writer.WriteLine(MyBank.CustomerManager.Customers.Count);
             foreach (Customer customer in MyBank.CustomerManager.Customers) {
                 string[] customerInfo = new string[9];
@@ -75,18 +77,20 @@ namespace _1809_BankApp {
                 writer.WriteLine(string.Join(";", customerInfo));
             }
             writer.WriteLine(MyBank.AccountManager.Accounts.Count);
+            Console.WriteLine($"Total accounts{MyBank.AccountManager.Accounts.Count}");
+
             foreach (Account account in MyBank.AccountManager.Accounts) {
                 string[] accountInfo = new string[3];
                 accountInfo[0] = account.Id.ToString();
                 accountInfo[1] = account.OwnerId.ToString();
-                accountInfo[2] = account.Balance.ToString();
+                accountInfo[2] = account.Balance.ToString(CultureInfo.InvariantCulture);
 
                 writer.WriteLine(string.Join(";", accountInfo));
             }
+            decimal totalBalance = MyBank.AccountManager.Accounts.Sum(x => x.Balance);
+            Console.WriteLine($"Total balance: {totalBalance:C}\n");
             writer.Close();
         }
-
-
 
 
         public void WriteTransactionLog(Transaction transaction) {

@@ -17,6 +17,9 @@ namespace _1809_BankApp {
         Withdrawal,
         Transferral,
         ApplyInterest,
-        ShowAccountView
+        ShowAccountView,
+        ChangeCreditRoof,
+        ChangeDebitInterest,
+        ChangeCreditInterest
     }
 }

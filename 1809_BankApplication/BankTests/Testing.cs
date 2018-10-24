@@ -57,26 +57,30 @@ namespace BankTests {
 
         [TestMethod]
         public void DebitInterests() {
+
+            TransactionManager transactionManager = new TransactionManager();
             Account debitAccount = new Account() {
                 Balance = 100,
                 DebitInterestYearly = .02
             };
 
             for (int i = 0; i < 365; i++) {
-                InterestApplication.ApplyDailyInterest(debitAccount);
+                transactionManager.ApplyDailyInterest(debitAccount);
             }
             Assert.AreEqual(102, Math.Round(debitAccount.Balance, 2));
         }
 
         [TestMethod]
         public void CreditInterest() {
+            TransactionManager transactionManager = new TransactionManager();
+
             Account debitAccount = new Account() {
                 Balance = -100,
                 CreditInterestYearly = .02
             };
 
             for (int i = 0; i < 365; i++) {
-                InterestApplication.ApplyDailyInterest(debitAccount);
+                transactionManager.ApplyDailyInterest(debitAccount);
             }
             Assert.AreEqual(-102, Math.Round(debitAccount.Balance, 2));
         }

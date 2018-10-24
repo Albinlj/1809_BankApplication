@@ -21,6 +21,27 @@ namespace _1809_BankApp {
             return newTransaction;
         }
 
+        public InterestApplication ApplyDailyInterest(Account account)
+        {
+            var newInterestApplication = CreateTransaction<InterestApplication>();
+
+
+            double multiplier = account.Balance > 0 ? account.DebitInterestYearly + 1 : account.CreditInterestYearly + 1;
+            decimal addedAmount = account.Balance * ((decimal)Math.Pow((multiplier), 1 / 365d) - 1);
+            account.Balance += addedAmount;
+
+            newInterestApplication.InterestRate = multiplier - 1;
+            newInterestApplication.AccountReceiverId = account.Id;
+            newInterestApplication.CustomerReceiverId = account.OwnerId;
+            newInterestApplication.Amount = addedAmount;
+            newInterestApplication.TimeOfTransaction = DateTime.Now;
+
+            MyBank?.DatabaseManager.WriteTransactionLog(newInterestApplication);
+
+
+            return newInterestApplication;
+        }
+
 
         public Transfer Transfer(Account sendingAccount, Account receivingAccount, decimal amount) {
             if (!HasEnoughFunds(sendingAccount, amount) || amount < 0) return null;
